@@ -10,13 +10,17 @@ function controller(cards){
   this.data = cards;
 }
 // controller.data = data;
-controller.prototype.find = function({pageNumber, pageSize}) {
+controller.prototype.find = function ({pageNumber, pageSize}) {
   var keys = Object.keys(this.data);
   var values = _.map(_.range(pageNumber*pageSize, pageNumber*pageSize + pageSize), n => this.data[keys[n]]);
   // this.data
     // .slice(pageNumber*pageSize)
     // .forEach((value, key) => values.push(value));
   return values;
+};
+
+controller.prototype.get = function ({username}) {
+  return this.data[username]
 };
 
 controller.prototype.getSize = function() {
