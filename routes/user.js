@@ -6,8 +6,8 @@ var _ = require('lodash');
 /* GET users listing. */
 router.get('/', function (req, res) {
   var pageOpts = {
-    pageNumber: req.query.page || 0,
-    pageSize: req.query.pageSize || 10
+    pageNumber: _.toNumber(req.query.page) || 0,
+    pageSize: _.toNumber(req.query.pageSize) || 10
   };
   var list = userController.find(pageOpts);
   list = _.map(list, card => _.pick(card, [
