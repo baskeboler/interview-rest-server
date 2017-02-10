@@ -9,6 +9,19 @@ var bodyParser = require('body-parser');
 
 var routes = require('./routes/index');
 var users = require('./routes/user');
+var passport = require('passport');
+var BearerStrategy = require('passport-http-bearer').Strategy;
+var AuthController = require('./controllers/auth.controller');
+
+var authCtrl = new AuthController();
+
+passport.use(new BearerStrategy(
+  function(token, done) {
+    authCtrl.isValidSessionId({sessionId: token})
+      .then(res => done(null, res))
+      .catch(err => done(err));
+  }
+));
 
 var app = express();
 
@@ -32,7 +45,24 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/css', express.static(path.join(__dirname, 'node_modules', 'normalize.css')));
 
 app.use('/', routes);
-app.use('/users', users);
+app.post('/login', (req, res) => {
+  var username = req.body.username;
+  var password = req.body.password;
+  console.log(`${username} :: ${password}`);
+  authCtrl.login({username: username, password: password}).then(cred => {
+    res.status(200).send({token: cred});
+  }).catch(err => res.status(401).send({message: err}));
+});
+
+app.post('/create-user', (req, res) => {
+  var username = req.body.username;
+  var password = req.body.password;
+  console.log(`${username} :: ${password}`);
+  authCtrl.createUser({username: username, password: password})
+  res.sendStatus(201);
+});
+
+app.use('/users', passport.authenticate('bearer', {session: false}), users);
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {

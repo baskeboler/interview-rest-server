@@ -25,7 +25,7 @@ router.get('/:username', (req, res) => {
   var card = userController.get({
     username: req.params.username
   });
-  if (card != null) {
+  if (_.isObject(card)) {
     res.status(200).send(_.pick(card, [
       'name', 'username', 'email',
       'address', 'phone', 'website',
@@ -33,7 +33,7 @@ router.get('/:username', (req, res) => {
       ])
     );
   } else {
-    res.status(400).end();
+    res.status(404).end();
   }
 });
 
@@ -44,7 +44,7 @@ router.get('/:username/posts', (req, res) => {
   if (card != null) {
     res.status(200).send(card.posts);
   } else {
-    res.status(400).end();
+    res.status(404).end();
   }
 });
 
@@ -55,7 +55,7 @@ router.get('/:username/account-history', (req, res) => {
   if (card != null) {
     res.status(200).send(card.accountHistory);
   } else {
-    res.status(400).end();
+    res.status(404).end();
   }
 });
 
