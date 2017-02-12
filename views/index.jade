@@ -3,16 +3,21 @@ extends layout
 block content
   h1= title
   p Welcome to #{title}
-  h2 Services available
-  ul
-    li /users
-      ul
-        li Accepts page and pageSize query parameters. If omitted, page is 0 and pageSize is 10.
-        li Includes the following response headers for pagination
-          ul
-            li #[strong PAGINATION-PAGE]: current page
-            li #[strong PAGINATION-TOTAL]: total number of elements
-            li #[strong PAGINATION-SIZE]: size of page
-    li /users/{username}
-    li /users/{username}/posts
-    li /users/{username}/account-history
+  .section
+    h2 Services available
+    ul
+      li POST /login, recibe un body en formato json de la siguiente forma: {username: USR, password: PASS}
+        ul
+          li Devuelve un json de la forma {token: XXXX} que deberá ser usado en futuros llamados en el header Authorization: bearer token_value
+      li POST /create-user, recibe un json igual al anterior.
+      li GET /users
+        ul
+          li Accepts page and pageSize query parameters. If omitted, page is 0 and pageSize is 10.
+          li Includes the following response headers for pagination
+            ul
+              li #[strong PAGINATION-PAGE]: current page
+              li #[strong PAGINATION-TOTAL]: total number of elements
+              li #[strong PAGINATION-SIZE]: size of page
+      li GET /users/{username}
+      li GET /users/{username}/posts
+      li GET /users/{username}/account-history

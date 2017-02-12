@@ -1,8 +1,20 @@
 body {
   padding: 50px;
-  background-color: azure;
+  background-color: #DABFFF;
+  color: #2C2A4A;
 }
 
 a {
-  color: #00B7FF;
+  color: #7FDEFF;
+}
+
+.section {
+  /*background-color: #907AD6;*/
+  padding: 2em;
+  border-radius: 1em;
+  border-width: .3em ;
+  border-color: #4F518C;
+  outline-color: black;
+  margin: 2em;
+  border-style: groove;
 }
